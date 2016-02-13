@@ -1,0 +1,9 @@
+host: http://api.crabfarm.io
+
+files:
+- Crabfile
+- Gemfile
+- Gemfile.lock
+- boot.rb
+- app/**/*.*
+- bin/*
