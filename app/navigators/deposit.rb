@@ -1,6 +1,8 @@
 class Deposit < Crabfarm::BaseNavigator
 
   def run
+    navigate :login
+    navigate :deposit_page
     browser.search("input[name='MONTO_TEF']").set params[:amount]
     browser.search("input[name='CUENTA_DESTINO_ID']").set params[:destinatary_account]
     browser.search("input[name='NOMBRE_DESTINATARIO']").set params[:destinatary_name]
