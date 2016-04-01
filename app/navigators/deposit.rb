@@ -15,6 +15,7 @@ class Deposit < Crabfarm::BaseNavigator
     browser.goto frame: :top
     browser.goto frame:"[name='derecho']"
     browser.search("[name='SubmitConfima']").click
+    { success: true }
   end
 
 end
