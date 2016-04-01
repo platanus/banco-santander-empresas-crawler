@@ -25,10 +25,10 @@ set_webdriver_dsl :pincers
 # set_webdriver_capabilities
 
 # Set the browser window width
-# set_webdriver_window_width 1280
+set_webdriver_window_width 1280
 
 # Set the browser window height
-# set_webdriver_window_height 800
+set_webdriver_window_height 1200
 
 # Phantom launcher configuration
 ########################################
