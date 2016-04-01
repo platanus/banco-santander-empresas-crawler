@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem "crabfarm", '0.7.9'
 gem "pincers", '~> 0.7'
+gem "cangrejo"
 
 # Comment this if not using a nokogiri based parser or browser
 gem 'nokogiri', "~> 1.6"
