@@ -4,7 +4,7 @@ class DepositPage < Crabfarm::BaseNavigator
     # Add some navigation code here.
     browser.goto frame:"[name='izquierdo']"
     browser.search("a:contains('Transferencia entre cuentas')").click
-    browser.search("font:contains('Transferencias de Fondo')").click
+    browser.search("a:contains('Transferencias de Fondo')").click
     browser.search("a:contains('Cuenta corriente a Otros Bancos')").click
     browser.search("a:contains('Creación')").click
     browser.goto frame: :top
