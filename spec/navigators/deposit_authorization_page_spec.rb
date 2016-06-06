@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DepositPage do
+describe DepositAuthorizationPage do
 
   before do
     navigate :login, rut: ENV['RUT'],
@@ -8,9 +8,9 @@ describe DepositPage do
                      from_account: ENV['SPEC_FROM_ACCOUNT']
   end
 
-  it "should reach the deposit page" do
+  it "should reach the deposit authorization page" do
     navigate
-    expect(browser.text).to include("Creación de Transferencia de Fondos de Cuenta Corriente a Cuenta Otros Bancos")
+    expect(browser.text).to include("Autorización Transferencia de Fondos - Cuenta Corriente a Cuenta Otros Bancos")
   end
 
 end
