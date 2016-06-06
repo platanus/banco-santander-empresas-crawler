@@ -1,4 +1,4 @@
-class DepositPage < Crabfarm::BaseNavigator
+class DepositAuthorizationPage < Crabfarm::BaseNavigator
 
   def run
     # Add some navigation code here.
@@ -6,7 +6,7 @@ class DepositPage < Crabfarm::BaseNavigator
     browser.search("a:contains('Transferencia entre cuentas')").click
     browser.search("a:contains('Transferencias de Fondo')").click
     browser.search("a:contains('Cuenta corriente a Otros Bancos')").click
-    browser.search("a:contains('Creación')").click
+    browser.search("a:contains('Autorización')").click
     browser.goto frame: :top
     browser.goto frame:"[name='derecho']"
   end

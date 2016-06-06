@@ -6,6 +6,17 @@ class Login < Crabfarm::BaseNavigator
     browser.search("input#d_rut").set(params[:rut])
     browser.search("input#d_pin").set(params[:password])
     browser.search("#botonenvio").click()
+    if params[:from_account]
+      browser.goto frame:"[name='derecho']"
+      browser.search("#tablalista > table > tbody > tr").each do |trx|
+        if trx.search("td")[1].text.to_i == params[:from_account].to_i &&
+           trx.search("td")[2].text == "Transaccional"
+          trx.search("td input").click
+          browser.search("#botones > a").click and return
+        end
+      end
+      raise "cuenta origen no encontrada"
+    end
   end
 
 end
