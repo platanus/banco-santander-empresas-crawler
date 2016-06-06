@@ -15,7 +15,7 @@ class DepositAuthorization < Crabfarm::BaseNavigator
     browser.search("#table_1 > tbody > tr").each do |trx|
       amount = trx.search("td")[5].text.strip.delete(".").to_i
       if amount == params[:amount].to_i
-        trx.search("td")[0].click
+        trx.search("td input").click
         browser.search('#footer > input[type="button"]:nth-child(1)').click and return
       end
     end
@@ -28,9 +28,8 @@ class DepositAuthorization < Crabfarm::BaseNavigator
     browser.search("input[name='GUARDAR']").click
   end
 
-  def get_coord_number coord_selector 
+  def get_coord_number key_text 
     @coords_matrix ||= params[:coords].split(",").collect{|coord| coord.strip}.each_slice(10).to_a
-    key_text = browser.search(coord_selector).text
     key_coords = [key_text[0].ord - 65, key_text[1].to_i - 1]
     @coords_matrix[key_coords[1]][key_coords[0]]
   end
@@ -38,21 +37,21 @@ class DepositAuthorization < Crabfarm::BaseNavigator
   def enter_coords
     browser.search('#clave > input[type="button"]').click
 
-    coord1_selector = '#Layer1 > table > tbody > tr > td > table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(1) > td'
-    coord2_selector = '#Layer1 > table > tbody > tr > td > table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(4) > table > tbody > tr:nth-child(1) > td'
-    coord3_selector = '#Layer1 > table > tbody > tr > td > table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(6) > table > tbody > tr:nth-child(1) > td'
+    coord1_text = browser.search("#Layer1 > table > tbody > tr > td > table > tbody tr")[3].search("td > table > tbody > tr > td")[2].text
+    coord2_text = browser.search("#Layer1 > table > tbody > tr > td > table > tbody tr")[3].search("td > table > tbody > tr > td")[5].text
+    coord3_text = browser.search("#Layer1 > table > tbody > tr > td > table > tbody tr")[3].search("td > table > tbody > tr > td")[9].text
    
-    coord1_value = get_coord_number(coord1_selector)
-    coord2_value = get_coord_number(coord2_selector)
-    coord3_value = get_coord_number(coord3_selector)
+    coord1_value = get_coord_number(coord1_text)
+    coord2_value = get_coord_number(coord2_text)
+    coord3_value = get_coord_number(coord3_text)
 
-    input_coord1_selector = "#Layer1 > table > tbody > tr > td > table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(2) > td > input"
-    input_coord2_selector = "#Layer1 > table > tbody > tr > td > table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(4) > table > tbody > tr:nth-child(2) > td > input"
-    input_coord3_selector = "#Layer1 > table > tbody > tr > td > table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(6) > table > tbody > tr:nth-child(2) > td > input"
+    input_coord1 = browser.search("#Layer1 > table > tbody > tr > td > table > tbody tr")[3].search("td > table > tbody > tr input")[0]
+    input_coord2 = browser.search("#Layer1 > table > tbody > tr > td > table > tbody tr")[3].search("td > table > tbody > tr input")[1]
+    input_coord3 = browser.search("#Layer1 > table > tbody > tr > td > table > tbody tr")[3].search("td > table > tbody > tr input")[2]
 
-    browser.search(input_coord1_selector).set coord1_value
-    browser.search(input_coord2_selector).set coord2_value
-    browser.search(input_coord3_selector).set coord3_value
+    input_coord1.set coord1_value
+    input_coord2.set coord2_value
+    input_coord3.set coord3_value
 
     browser.search('#inputSec > table > tbody > tr > td > input[type="button"]:nth-child(1)').click
   end
