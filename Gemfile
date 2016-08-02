@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem "crabfarm", '0.7.9'
+gem "twilio-ruby"
 gem "pincers", '~> 0.7'
 gem "cangrejo"
 

@@ -11,8 +11,10 @@ describe DepositAuthorization do
              rut: ENV['RUT'],
              password: ENV['PASSWORD'],
              from_account: ENV['SPEC_FROM_ACCOUNT'],
+             twilio_account_sid: ENV["TWILIO_ACCOUNT_SID"],
+             twilio_auth_token: ENV["TWILIO_AUTH_TOKEN"],
              coords: ENV['SPEC_COORDS']
-
-    expect(browser.search("#estatusproceso").wait(:present).text).to include("La autorización fue realizada con éxito.")
+    sleep 30
+    expect(browser.search("#estatusproceso").wait(:present).text).to_not include("error")
   end
 end

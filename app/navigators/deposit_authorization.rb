@@ -7,6 +7,7 @@ class DepositAuthorization < Crabfarm::BaseNavigator
     search_trx
     validate_and_select_trx 
     enter_coords
+    enter_code
 
     { success: true }
   end
@@ -54,5 +55,35 @@ class DepositAuthorization < Crabfarm::BaseNavigator
     input_coord3.set coord3_value
 
     browser.search('#inputSec > table > tbody > tr > td > input[type="button"]:nth-child(1)').click
+  end
+
+  def enter_code
+    browser.search("input[name='CLVOTP3']").set get_code
+    browser.search("input[name='btn_ctn']").click
+  end
+   
+  def get_code 
+    require 'twilio-ruby'
+
+    account_sid = params[:twilio_account_sid]
+    auth_token = params[:twilio_auth_token]
+
+    # set up
+    client = Twilio::REST::Client.new account_sid, auth_token
+    t = Time.now
+    timeout = 10.minutes
+    while( Time.now < t + timeout ) do
+      puts "Esperando SMS ..."
+      last_message = client.messages.list(date_sent:Time.now.strftime("%Y-%m-%d")).first
+      time = Time.parse(last_message.date_created)
+      if time > t
+        puts "Llego mensaje! '#{last_message.body}'"
+        # "Su CLAVE 3.0 es 357469.Ingresela en "...
+        code = last_message.body.split(" ")[4].split(".")[0]
+        puts "Code: #{code}"
+        return code
+      end
+      sleep 20.seconds
+    end
   end
 end
