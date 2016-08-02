@@ -11,8 +11,8 @@ describe Deposit do
              rut: ENV['RUT'],
              password: ENV['PASSWORD'],
              from_account: ENV['SPEC_FROM_ACCOUNT']
-
+    sleep 10
     browser.search("a:contains('Transferencias Creadas')").click
-    expect(browser.search("#Tcreadas").text).to include(ENV['SPEC_ACCOUNT'].dup.insert(-2, "-"))
+    expect(browser.search("#Tcreadas").text.delete("- ")).to include(ENV['SPEC_ACCOUNT'].delete("- "))
   end
 end
