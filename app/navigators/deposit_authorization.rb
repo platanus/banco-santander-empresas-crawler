@@ -74,7 +74,7 @@ class DepositAuthorization < Crabfarm::BaseNavigator
     timeout = 10.minutes
     while( Time.now < t + timeout ) do
       puts "Esperando SMS ..."
-      last_message = client.messages.list(date_sent:Time.now.strftime("%Y-%m-%d")).first
+      last_message = client.messages.list(date_sent: t.strftime("%Y-%m-%d")).first
       if last_message && Time.parse(last_message.date_created) > t
         puts "Llego mensaje! '#{last_message.body}'"
         # "Su CLAVE 3.0 es 357469.Ingresela en "...
@@ -84,5 +84,6 @@ class DepositAuthorization < Crabfarm::BaseNavigator
       end
       sleep 20.seconds
     end
+    raise "Timeout when waiting for SMS"
   end
 end
