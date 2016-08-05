@@ -75,8 +75,7 @@ class DepositAuthorization < Crabfarm::BaseNavigator
     while( Time.now < t + timeout ) do
       puts "Esperando SMS ..."
       last_message = client.messages.list(date_sent:Time.now.strftime("%Y-%m-%d")).first
-      time = Time.parse(last_message.date_created)
-      if time > t
+      if last_message && Time.parse(last_message.date_created) > t
         puts "Llego mensaje! '#{last_message.body}'"
         # "Su CLAVE 3.0 es 357469.Ingresela en "...
         code = last_message.body.split(" ")[4].split(".")[0]
