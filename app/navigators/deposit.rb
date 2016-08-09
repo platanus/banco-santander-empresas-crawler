@@ -2,6 +2,20 @@ class Deposit < Crabfarm::BaseNavigator
 
   def run
     navigate :login
+    # We will check first if there is a previous authorization waiting for this deposit request
+    navigate :deposit_authorization_page
+    browser.search("input[name='RUTBENEFICIARIO']").set params[:destinatary_rut]
+    browser.search("input[name='CUENTADESTINO']").set params[:destinatary_account]
+    browser.search("input[name='GUARDAR']").click
+    browser.search("#table_1 > tbody > tr").each do |trx|
+      amount = trx.search("td")[5].text.strip.delete(".").to_i
+      status = trx.search("td")[8].text.strip
+      if amount == params[:amount].to_i && status == "Por Autorizar"
+        # Then it already exists! so we do nothing.
+        return { success: true, existing: true }
+      end
+    end
+    navigate :login
     navigate :deposit_page
     browser.search("input[name='MONTO_TEF']").set params[:amount]
     browser.search("input[name='CUENTA_DESTINO_ID']").set params[:destinatary_account]
@@ -16,7 +30,7 @@ class Deposit < Crabfarm::BaseNavigator
     browser.goto frame:"[name='derecho']"
     sleep 5
     browser.search("[name='SubmitConfima']").click
-    { success: true }
+    { success: true, existing: false }
   end
 
 end

@@ -15,7 +15,8 @@ class DepositAuthorization < Crabfarm::BaseNavigator
   def validate_and_select_trx
     browser.search("#table_1 > tbody > tr").each do |trx|
       amount = trx.search("td")[5].text.strip.delete(".").to_i
-      if amount == params[:amount].to_i
+      status = trx.search("td")[8].text.strip
+      if amount == params[:amount].to_i && status == "Por Autorizar"
         trx.search("td input").click
         browser.search('#footer > input[type="button"]:nth-child(1)').click and return
       end
