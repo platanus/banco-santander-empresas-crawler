@@ -1,13 +1,6 @@
 class DepositAuthorizationPage < Crabfarm::BaseNavigator
 
   def run
-    # Add some navigation code here.
-    browser.goto frame:"[name='izquierdo']"
-    browser.search("a:contains('Transferencia entre cuentas')").click
-    browser.search("a:contains('Transferencias de Fondo')").click
-    browser.search("a:contains('Cuenta corriente a Otros Bancos')").click
-    browser.search("a:contains('Autorización')").click
-    browser.goto frame: :top
-    browser.goto frame:"[name='derecho']"
+    browser.goto "https://www.officebanking.cl/Transferencia/otrosBancos/AutorizacionConsultaDetalle.asp?cod_srv=TRFCTA_CTE_OTROBCO_A"
   end
 end
