@@ -1,5 +1,4 @@
 class Transaction < Crabfarm::BaseStruct
-
   has_float :amount
   has_string :description
   has_field :date
@@ -12,12 +11,10 @@ class Transaction < Crabfarm::BaseStruct
 
     raise Crabfarm::AssertionError, 'invalid amounts' if negative.nil? && positive.nil?
 
-    self.amount = (negative.nil? || negative == 0) ? positive : -negative
+    self.amount = negative.nil? || negative.zero? ? positive : -negative
   end
 
-  def is_signed?
-    !self.signature.nil?
+  def signed?
+    !signature.nil?
   end
-
 end
-

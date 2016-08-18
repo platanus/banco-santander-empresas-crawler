@@ -32,17 +32,17 @@ module BankIdHelper
 
   def get_bank_id(_name)
     _name = clean_name(_name)
-    keys = BANKS.keys.select{|key| _name[key.to_s] }
+    keys = BANKS.keys.select { |key| _name[key.to_s] }
     raise "found more than 1 bank with similar name! #{_name}" if keys.count > 1
     BANKS[keys.first]
   end
 
   def clean_name(name)
-    name.downcase.gsub(/banco\s/,"")
-      .gsub("Á","a")
-      .gsub("É","e")
-      .gsub("Í","i")
-      .gsub("Ó","o")
-      .gsub("Ú","u")
+    name.downcase.gsub(/banco\s/, "")
+        .tr("Á", "a")
+        .tr("É", "e")
+        .tr("Í", "i")
+        .tr("Ó", "o")
+        .tr("Ú", "u")
   end
 end

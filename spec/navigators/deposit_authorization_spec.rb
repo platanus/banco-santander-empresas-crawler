@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe DepositAuthorization do
-
   it "should reach the post deposit page with success" do
     navigate amount: ENV['SPEC_AMOUNT'],
              destinatary_account: ENV['SPEC_ACCOUNT'],
