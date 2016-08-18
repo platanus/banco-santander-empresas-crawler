@@ -7,9 +7,25 @@ class DepositAuthorization < Crabfarm::BaseNavigator
     search_trx
     validate_and_select_trx 
     enter_coords
+    return { success: true } if are_we_there_yet?
     enter_code
+    return { success: true } if are_we_there_yet?
 
-    { success: true }
+    { success: false }
+  end
+
+  def are_we_there_yet?
+    if browser.backend.driver.window_handles.count == 2
+      current_tab = browser.backend.driver.window_handle
+      all_tabs = browser.backend.driver.window_handles
+      browser.backend.driver.switch_to.window (all_tabs - [current_tab]).first
+      if browser.search("body").text["La autorización fue realizada con éxito"].present?
+        return true
+      else
+        browser.backend.driver.switch_to.window current_tab
+        return false
+      end
+    end
   end
 
   def validate_and_select_trx
@@ -56,6 +72,7 @@ class DepositAuthorization < Crabfarm::BaseNavigator
     input_coord3.set coord3_value
 
     browser.search('#inputSec > table > tbody > tr > td > input[type="button"]:nth-child(1)').click
+    raise "error de coordenadas" if browser.search("font:contains('Los datos ingresados de las coordenadas de su tarjeta son incorrectos')").present?
   end
 
   def enter_code
