@@ -1,4 +1,4 @@
-logs/*.*
+logs/*.log
 .rbenv-vars
 spec/mementos/*.gzip
 demo
